@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: ansible_playbook
+  hosts: ece-server
+  require_ansible_repo: true
+  ansible_verbose: true
+  ansible_version: latest
+  require_chef_for_busser: false
+
+platforms:
+  - name: ubuntu-18.04
+  - name: centos-8
+
+suites:
+  - name: primary
+    playbook: https://github.com/elastic/ansible-elastic-cloud-enterprise
+    requirements_path: ./requirements.yml
+  - name: secondary
+    playbook: https://github.com/elastic/ansible-elastic-cloud-enterprise
+  - name: tertiary
+    playbook: https://github.com/elastic/ansible-elastic-cloud-enterprise

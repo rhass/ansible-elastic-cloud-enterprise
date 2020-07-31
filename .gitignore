@@ -4,3 +4,5 @@
 *.local.json
 .vscode
 .DS_Store
+.kitchen/
+.kitchen.local.yml

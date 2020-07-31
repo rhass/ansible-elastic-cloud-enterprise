@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Add Docker Apt Repository
+      when: ansible_facts['distribution'] == "Ubuntu"
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu {{ ansible_facts['ansible_lsb']['codename'] }} stable"
+    - name: Add Docker Yum Repository
+      # rpm_key:
+      #   key: https://download.docker.com/linux/centos/gpg
+      #   state: present
+      yum_repository:
+        name: docker
+        description: Docker Repository
+        baseurl: https://download.docker.com/linux/centos/
+        file: docker-ce
+        gpgcakey: https://download.docker.com/linux/centos/gpg
+        gpgcheck: yes
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: Install Docker
+      package:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+  roles:
+    - ansible-elastic-cloud-enterprise
+  vars:
+    ece_primary: true
